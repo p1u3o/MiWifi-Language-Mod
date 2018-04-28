@@ -3,7 +3,7 @@
 # Shell Name：install
 # Description：Plug-in install script
 # Author：ChocolateMilkGod
-# E-mail: daniel@smi.sh
+# E-mail: daniel .. smi.sh
 # Time：2018-04-27 01:30 UTC
 # Version: 1.00
 #----------------------------------------------------------------*/
