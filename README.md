@@ -10,9 +10,19 @@ Right now **only** the Xiaomi Router 3 Pro (**R3P**) is **supported**, R3G is ne
 
 To install, make sure you're on the Developer Version of the firmware with SSH enabled. Enabling this is outside the scope of this tutorial, a quick Google will find the instructions.
 
+Install:
+
     mkdir /etc/langmod; cd /etc/langmod; wget http://nocrypt.smi.sh/install.sh; sh install.sh
 
 I'd prefer to host the installer directly on GitHub, but the wget on the firmware does not support ssl.
 
 
 **Warning -** This mod creates a bind mount so it can patch the firmware to be "release" and not "stable". For some reason this can cause Dropbear not to start, however to be on the safe side this mod will start it manually anyway at each boot.
+
+Uninstall:
+
+    umount /usr/share/xiaoqiang
+    rm -r /etc/langmod
+    reboot
+    
+Done.
