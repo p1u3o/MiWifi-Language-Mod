@@ -15,7 +15,7 @@ MODEL=$(cat /proc/xiaoqiang/model)
 LUAPATH="/usr/lib/lua/luci"
 WEBPATH="/www/xiaoqiang/web"
 
-if [ "$MODEL" == "R3P" ]; then
+if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" ]; then
   echo "Supported Model ($MODEL)"
 else
   echo "Unsupported Model"
@@ -64,19 +64,19 @@ EOF
   echo "Patching Files"
   sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1"/romChannel == "release"/g' /usr/lib/lua/luci/view/web/inc/sysinfo.htm
   sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1" and ccode ~= "US"/romChannel == "release"/g' /usr/lib/lua/luci/view/web/setting/wifi.htm
-  
+
   if [ ! -f /etc/langmod/overlay/xiaoqiang_version ]; then
      mkdir /etc/langmod/overlay
     cp -rv /usr/share/xiaoqiang/* /etc/langmod/overlay
   fi
-  
+
   result=$(mount | grep /usr/share/xiaoqiang | wc -l) #overlay
 
   if [ $result == 0 ]; then
     mount --bind /etc/langmod/overlay/ /usr/share/xiaoqiang/
     sed -i 's#stable#release#g' /usr/share/xiaoqiang/xiaoqiang_version
   fi
-  
+
   sed -i 's/guidetoapp/hello/g' /usr/lib/lua/luci/view/web/sysauth.htm
   sed -i 's/<!-- <div class="pic">/<div class="pic">/g' /usr/lib/lua/luci/view/web/sysauth.htm
   sed -i 's#</div> -->#</div>#g' /usr/lib/lua/luci/view/web/sysauth.htm
