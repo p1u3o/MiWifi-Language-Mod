@@ -1,7 +1,7 @@
 #!/bin/sh
 #----------------------------------------------------------------
 # Shell Name：install
-# Description：Plug-in install script
+# Description：English install.
 # Author：ChocolateMilkGod
 # E-mail: daniel .. smi.sh
 # Time：2018-04-27 01:30 UTC
