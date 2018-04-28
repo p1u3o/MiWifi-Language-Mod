@@ -6,7 +6,7 @@ This mod will patch the Chinese firmware running on the box to re-enable the lan
 
 We then install these changes to /etc/firewall.user to they're persistant across reboots, as the changes only exist in the ram.
 
-Right now **only** the Xiaomi Router 3 Pro (**R3P**) is **supported**, R3G is next as its the only other Xiaomi Router I currently have, you're more than welcome to patch this to work on other models.
+Right now **only** the Xiaomi Router 3 Pro (**R3P**) and Xiaomi Router 3G (**R3G**) are **supported**, you're more than welcome to patch this to work on other models.
 
 To install, make sure you're on the Developer Version of the firmware with SSH enabled. Enabling this is outside the scope of this tutorial, a quick Google will find the instructions.
 
@@ -17,7 +17,7 @@ Install:
 I'd prefer to host the installer directly on GitHub, but the wget on the firmware does not support ssl.
 
 
-**Warning -** This mod creates a bind mount so it can patch the firmware to be "release" and not "stable". For some reason this can cause Dropbear not to start, however to be on the safe side this mod will start it manually anyway at each boot.
+**Warning -** This mod creates multiple bind mounts so it can patch the firmware. For some reason this can cause Dropbear not to start, however to be on the safe side this mod will start it manually anyway at each boot.
 
 Uninstall:
 
