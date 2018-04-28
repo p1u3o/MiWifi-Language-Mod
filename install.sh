@@ -14,7 +14,7 @@ clear
 MODEL=$(cat /proc/xiaoqiang/model)
 LUAPATH="/usr/lib/lua/luci"
 WEBPATH="/www/xiaoqiang/web"
-MOUNTFILESPATH="/etc/langmod/tmp"
+MOUNTFILESPATH="/tmp/langmod/tmp"
 
 if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" ]; then
   echo "Supported Model ($MODEL)"
