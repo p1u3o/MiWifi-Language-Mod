@@ -14,6 +14,8 @@ clear
 MODEL=$(cat /proc/xiaoqiang/model)
 LUAPATH="/usr/lib/lua/luci"
 WEBPATH="/www/xiaoqiang/web"
+VERSIONPATH="/usr/share/xiaoqiang"
+
 MOUNTFILESPATH="/tmp/langmod/tmp"
 
 if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" ]; then
@@ -27,39 +29,32 @@ if [ ! -f /etc/langmod/.installed ]; then
   echo -n "You sure you to continue? Ctrl-C to cancel. Any key to continue."
   read continue
 else
-echo -n "Waiting"
-sleep 5 #Sometimes during the boot process we execute too early, which can cause Luci to crash, among other issues.
+  echo -n "Waiting"
+  sleep 5 #Sometimes during the boot process we execute too early, which can cause Luci to crash, among other issues.
 fi
-
-# We could eventually support installing to attached storage, but we won't for now, internal has more than enough room.
-if [ "$MODEL" == "R1D" -o "$MODEL" == "R2D" -o "$MODEL" == "R3D"  ];then
-        MIWIFIPATH="/etc"
-elif [ "$MODEL" == "R3" -o "$MODEL" == "R3P" -o "$MODEL" == "R3G" ];then
-        MIWIFIPATH="/etc"
-fi
-
 
 mount -o remount,rw /
 
 umount -lf $LUAPATH 2>/dev/null
 umount -lf $WEBPATH 2>/dev/null
+umount -lf $VERSIONPATH 2>/dev/null
 
 rm -rf $MOUNTFILESPATH
 mkdir -p $MOUNTFILESPATH
 
 cp -rf $LUAPATH $MOUNTFILESPATH
 cp -rf $WEBPATH $MOUNTFILESPATH
+cp -rf $VERSIONPATH $MOUNTFILESPATH
 
 mount --bind $MOUNTFILESPATH/luci $LUAPATH
 mount --bind $MOUNTFILESPATH/web $WEBPATH
-
-
+mount --bind $MOUNTFILESPATH/xiaoqiang $VERSIONPATH
 
 if [ ! -f /etc/langmod/base.en.lmo ]; then
-    mkdir /etc/langmod/
-    touch /etc/langmod/.installed
-    echo -n "Downloading English Pack"
-    wget http://nocrypt.smi.sh/languages/R3P/base.en.lmo -O /etc/langmod/base.en.lmo
+  mkdir /etc/langmod/
+  touch /etc/langmod/.installed
+  echo -n "Downloading English Pack"
+  wget http://nocrypt.smi.sh/languages/R3P/base.en.lmo -O /etc/langmod/base.en.lmo
 fi
 
 if [ ! -f /etc/langmod/base.en.lmo ]; then
@@ -67,42 +62,31 @@ if [ ! -f /etc/langmod/base.en.lmo ]; then
   exit
 fi
 
+echo "Patching Files"
 
 ln -s /etc/langmod/base.en.lmo /usr/lib/lua/luci/i18n/base.en.lmo
-
 uci batch <<-EOF
   set luci.languages.en=English
   set luci.main.lang=en
   commit luci
 EOF
 
-  echo "Patching Files"
-  sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1"/romChannel == "release"/g' /usr/lib/lua/luci/view/web/inc/sysinfo.htm
-  sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1" and ccode ~= "US"/romChannel == "release"/g' /usr/lib/lua/luci/view/web/setting/wifi.htm
+sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1"/romChannel == "release"/g' /usr/lib/lua/luci/view/web/inc/sysinfo.htm
+sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1" and ccode ~= "US"/romChannel == "release"/g' /usr/lib/lua/luci/view/web/setting/wifi.htm
 
-  if [ ! -f /etc/langmod/overlay/xiaoqiang_version ]; then
-     mkdir /etc/langmod/overlay
-    cp -rv /usr/share/xiaoqiang/* /etc/langmod/overlay
-  fi
+sed -i 's#stable#release#g' /usr/share/xiaoqiang/xiaoqiang_version
 
-  result=$(mount | grep /usr/share/xiaoqiang | wc -l) #overlay
+sed -i 's/guidetoapp/hello/g' /usr/lib/lua/luci/view/web/sysauth.htm # Setup new routers without the app.
+sed -i 's/<!-- <div class="pic">/<div class="pic">/g' /usr/lib/lua/luci/view/web/sysauth.htm
+sed -i 's#</div> -->#</div>#g' /usr/lib/lua/luci/view/web/sysauth.htm
+sed -i 's#<!-- <div class="rtname">#<div class="rtname">#g' /usr/lib/lua/luci/view/web/sysauth.htm
+sed -i 's#class="detail"#class="detail" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
+sed -i 's#class="download"#class="download" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
+sed -i 's#class="tip"#class="tip" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
+sed -i 's#<%:欢迎使用小米路由器%>#<img src="<%=resource%>/web/img/<%=lang%>/bg_login_tit.png?v=<%=ver%>" height="124">#g' /usr/lib/lua/luci/view/web/sysauth.htm
 
-  if [ $result == 0 ]; then
-    mount --bind /etc/langmod/overlay/ /usr/share/xiaoqiang/
-    sed -i 's#stable#release#g' /usr/share/xiaoqiang/xiaoqiang_version
-  fi
-
-  sed -i 's/guidetoapp/hello/g' /usr/lib/lua/luci/view/web/sysauth.htm
-  sed -i 's/<!-- <div class="pic">/<div class="pic">/g' /usr/lib/lua/luci/view/web/sysauth.htm
-  sed -i 's#</div> -->#</div>#g' /usr/lib/lua/luci/view/web/sysauth.htm
-  sed -i 's#<!-- <div class="rtname">#<div class="rtname">#g' /usr/lib/lua/luci/view/web/sysauth.htm
-  sed -i 's#class="detail"#class="detail" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
-  sed -i 's#class="download"#class="download" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
-  sed -i 's#class="tip"#class="tip" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
-  sed -i 's#<%:欢迎使用小米路由器%>#<img src="<%=resource%>/web/img/<%=lang%>/bg_login_tit.png?v=<%=ver%>" height="124">#g' /usr/lib/lua/luci/view/web/sysauth.htm
-
-  sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footer.htm
-  sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footermini.htm
+sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footer.htm
+sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footermini.htm
 
 luci-reload
 rm -r /tmp/luci-modulecache
