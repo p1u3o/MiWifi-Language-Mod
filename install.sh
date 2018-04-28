@@ -62,15 +62,15 @@ EOF
   sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1"/romChannel == "release"/g' /usr/lib/lua/luci/view/web/inc/sysinfo.htm
   sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1" and ccode ~= "US"/romChannel == "release"/g' /usr/lib/lua/luci/view/web/setting/wifi.htm
   
-  if [ ! -f /etc/overlay/xiaoqiang_version ]; then
-     mkdir /etc/overlay
-    cp -rv /usr/share/xiaoqiang/* /etc/overlay
+  if [ ! -f /etc/langmod/overlay/xiaoqiang_version ]; then
+     mkdir /etc/langmod/overlay
+    cp -rv /usr/share/xiaoqiang/* /etc/langmod/overlay
   fi
   
   result=$(mount | grep /usr/share/xiaoqiang | wc -l) #overlay
 
   if [ $result == 0 ]; then
-    mount --bind /etc/overlay/ /usr/share/xiaoqiang/
+    mount --bind /etc/langmod/overlay/ /usr/share/xiaoqiang/
     sed -i 's#stable#release#g' /usr/share/xiaoqiang/xiaoqiang_version
   fi
   
