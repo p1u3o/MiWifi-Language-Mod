@@ -58,13 +58,24 @@ uci batch <<-EOF
   commit luci
 EOF
 
-result=$(cat /usr/lib/lua/luci/view/web/inc/sysinfo.htm | grep 'romChannel == "release"' | wc -l) #patch sysinfo
-if [ $result == 1 ]; then
   echo "Patching Files"
   sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/sysinfo.htm
   sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1" and ccode ~= "US"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/setting/wifi.htm
   sed -i 's/local isrelease = XQSysUtil.getChannel() == "release"/local isrelease = 1/g' /usr/lib/lua/luci/dispatcher.lua
-fi
+  sed -i 's/_romChannel == "release"/_romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/footer.htm
+  sed -i 's/romChannel == "release"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/g.js.htm
+  sed -i 's/_romChannel == "release"/_romChannel == "stable"/g' /usr/lib/lua/luci/view/diagnosis/home.htm
+  sed -i 's/guidetoapp/hello/g' /usr/lib/lua/luci/view/web/sysauth.htm
+  sed -i 's/<!-- <div class="pic">/<div class="pic">/g' /usr/lib/lua/luci/view/web/sysauth.htm
+  sed -i 's#</div> -->#</div>#g' /usr/lib/lua/luci/view/web/sysauth.htm
+  sed -i 's#<!-- <div class="rtname">#<div class="rtname">#g' /usr/lib/lua/luci/view/web/sysauth.htm
+  sed -i 's#class="detail"#class="detail" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
+  sed -i 's#class="download"#class="download" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
+  sed -i 's#class="tip"#class="tip" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
+  sed -i 's#<%:欢迎使用小米路由器%>#<img src="<%=resource%>/web/img/<%=lang%>/bg_login_tit.png?v=<%=ver%>" height="124">#g' /usr/lib/lua/luci/view/web/sysauth.htm
+
+  sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footer.htm
+  sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footermini.htm
 
 luci-reload
 rm -r /tmp/luci-modulecache
