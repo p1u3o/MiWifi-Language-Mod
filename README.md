@@ -15,3 +15,4 @@ To install, make sure you're on the Developer Version of the firmware with SSH e
 I'd prefer to host the installer directly on GitHub, but the wget on the firmware does not support ssl.
 
 
+**Warning -** This mod creates a bind mount so it can patch the firmware to be "release" and not "stable". For some reason this can cause Dropbear not to start, however to be on the safe side this mod will start it manually anyway at each boot.
