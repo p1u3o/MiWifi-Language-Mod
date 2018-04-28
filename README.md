@@ -1,5 +1,8 @@
 
 # MiWifi-Language-Mod
+
+**Warning -** This mod could brick your router, although its unlikely, I take no responsibility for any damage caused. That being said, these changes only exist in the temporary storage, so resetting your router is enough to uninstall them.
+
 This mod allows non-international (Chinese Mainland) versions of the MiWifi (Xiaomi) firmware to use other languages (English), as well as enabling the locale chooser. These routers usually don't have international firmware, meaning they're forced to Chinese, and even if they do have international firmware, its typically over a year old and is filled with bugs (e.g. R3P int firmware has channel issues). This mod isn't "perfect", there's still parts that are not translated.
 
 ![Router 3G](https://i.gyazo.com/5973c00cdff864089a926db0c25609e5.png)
