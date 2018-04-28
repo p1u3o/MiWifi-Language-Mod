@@ -2,6 +2,8 @@
 # MiWifi-Language-Mod
 This mod allows non-international (Chinese Mainland) versions of the MiWifi (Xiaomi) firmware to use other languages (English), as well as enabling the locale chooser. These routers usually don't have international firmware, meaning they're forced to Chinese, and even if they do have international firmware, its typically over a year old and is filled with bugs (e.g. R3P int firmware has channel issues). This mod isn't "perfect", there's still parts that are not translated.
 
+![Route 3G][https://i.gyazo.com/5973c00cdff864089a926db0c25609e5.png]
+
 This mod will patch the Chinese firmware running on the box to re-enable the language chooser, region chooser (so you're not longer breaking your local laws) and download the English language pack. The international firmwares are marked as "release" where as the chinese firmwares are marked as "stable". So we patch out the parts of Luci that check for "release".
 
 We then install these changes to /etc/firewall.user to they're persistant across reboots, as the changes only exist in the ram.
