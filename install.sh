@@ -59,12 +59,18 @@ uci batch <<-EOF
 EOF
 
   echo "Patching Files"
-  sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/sysinfo.htm
-  sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1" and ccode ~= "US"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/setting/wifi.htm
-  sed -i 's/local isrelease = XQSysUtil.getChannel() == "release"/local isrelease = 1/g' /usr/lib/lua/luci/dispatcher.lua
-  sed -i 's/_romChannel == "release"/_romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/footer.htm
-  sed -i 's/romChannel == "release"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/g.js.htm
-  sed -i 's/_romChannel == "release"/_romChannel == "stable"/g' /usr/lib/lua/luci/view/diagnosis/home.htm
+  #sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/sysinfo.htm
+  #sed -i 's/romChannel == "release" and features\["system"\]\["i18n"\] == "1" and ccode ~= "US"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/setting/wifi.htm
+  #sed -i 's/local isrelease = XQSysUtil.getChannel() == "release"/local isrelease = 1/g' /usr/lib/lua/luci/dispatcher.lua
+  #sed -i 's/_romChannel == "release"/_romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/footer.htm
+  #sed -i 's/romChannel == "release"/romChannel == "stable"/g' /usr/lib/lua/luci/view/web/inc/g.js.htm
+  #sed -i 's/_romChannel == "release"/_romChannel == "stable"/g' /usr/lib/lua/luci/view/diagnosis/home.htm
+  
+  mkdir /etc/overlay
+  cp -rv /usr/share/xiaoqiang/* /etc/overlay
+  mount --bind /etc/overlay/ /usr/share/xiaoqiang/
+  sed -i 's#stable#release#g' /usr/share/xiaoqiang/xiaoqiang_version
+
   sed -i 's/guidetoapp/hello/g' /usr/lib/lua/luci/view/web/sysauth.htm
   sed -i 's/<!-- <div class="pic">/<div class="pic">/g' /usr/lib/lua/luci/view/web/sysauth.htm
   sed -i 's#</div> -->#</div>#g' /usr/lib/lua/luci/view/web/sysauth.htm
