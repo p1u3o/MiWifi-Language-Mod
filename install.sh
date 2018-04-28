@@ -50,6 +50,9 @@ if [ ! -f /etc/langmod/base.en.lmo ]; then
   exit
 fi
 
+echo -n "Waiting"
+sleep 5 #Sometimes during the boot process we execute too early, which can cause Luci to crash, among other issues.
+
 ln -s /etc/langmod/base.en.lmo /usr/lib/lua/luci/i18n/base.en.lmo
 
 uci batch <<-EOF
@@ -95,7 +98,7 @@ touch /etc/firewall.user
 
 result=$(cat /etc/firewall.user | grep langmod | wc -l) #patch firewall.user to make persistant
 if [ $result == 0 ]; then
-  echo "sh /etc/langmod/install.sh" >> /etc/firewall.user
+  echo "sh /etc/langmod/install.sh &" >> /etc/firewall.user
 fi
 
 dropbear
