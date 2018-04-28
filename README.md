@@ -4,9 +4,9 @@ This mod allows non-international (Chinese Mainland) versions of the MiWifi (Xia
 
 ![Router 3G](https://i.gyazo.com/5973c00cdff864089a926db0c25609e5.png)
 
-This mod will patch the Chinese firmware running on the box to re-enable the language chooser, region chooser (so you're not longer breaking your local laws) and download the English language pack. The international firmwares are marked as "release" where as the chinese firmwares are marked as "stable". So we patch out the parts of Luci that check for "release".
+This mod will patch the Chinese firmware running on the router to re-enable the language chooser, region chooser (so you're not longer breaking your local laws) and download the English language pack. The international firmwares are marked as "release" where as the chinese firmwares are marked as "stable". So we patch out that out too. 
 
-We then install these changes to /etc/firewall.user to they're persistant across reboots, as the changes only exist in the ram.
+We then install these changes to /etc/firewall.user so they're persistant across reboots, as the changes only exist in the ram.
 
 Right now **only** the Xiaomi Router 3 Pro (**R3P**) and Xiaomi Router 3G (**R3G**) are **supported**, you're more than welcome to patch this to work on other models.
 
