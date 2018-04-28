@@ -25,6 +25,7 @@ Uninstall:
 
     umount /usr/share/xiaoqiang
     rm -r /etc/langmod
+    rm /etc/firewall.user
     reboot
     
 Done.
