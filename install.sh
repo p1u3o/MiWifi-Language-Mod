@@ -14,6 +14,7 @@ clear
 MODEL=$(cat /proc/xiaoqiang/model)
 LUAPATH="/usr/lib/lua/luci"
 WEBPATH="/www/xiaoqiang/web"
+MOUNTFILESPATH="/etc/langmod/tmp"
 
 if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" ]; then
   echo "Supported Model ($MODEL)"
@@ -27,16 +28,29 @@ if [ ! -f /etc/langmod/.installed ]; then
   read continue
 fi
 
-
-
-mount -o remount,rw /
-
 # We could eventually support installing to attached storage, but we won't for now, internal has more than enough room.
 if [ "$MODEL" == "R1D" -o "$MODEL" == "R2D" -o "$MODEL" == "R3D"  ];then
         MIWIFIPATH="/etc"
 elif [ "$MODEL" == "R3" -o "$MODEL" == "R3P" -o "$MODEL" == "R3G" ];then
         MIWIFIPATH="/etc"
 fi
+
+
+mount -o remount,rw /
+
+umount -lf $LUAPATH 2>/dev/null
+umount -lf $WEBPATH 2>/dev/null
+
+rm -rf $MOUNTFILESPATH
+mkdir -p $MOUNTFILESPATH
+
+cp -rf $LUAPATH $MOUNTFILESPATH
+cp -rf $WEBPATH $MOUNTFILESPATH
+
+mount --bind $MOUNTFILESPATH/luci $LUAPATH
+mount --bind $MOUNTFILESPATH/web $WEBPATH
+
+
 
 if [ ! -f /etc/langmod/base.en.lmo ]; then
     mkdir /etc/langmod/
