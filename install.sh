@@ -26,6 +26,9 @@ fi
 if [ ! -f /etc/langmod/.installed ]; then
   echo -n "You sure you to continue? Ctrl-C to cancel. Any key to continue."
   read continue
+else
+echo -n "Waiting"
+sleep 5 #Sometimes during the boot process we execute too early, which can cause Luci to crash, among other issues.
 fi
 
 # We could eventually support installing to attached storage, but we won't for now, internal has more than enough room.
@@ -64,8 +67,6 @@ if [ ! -f /etc/langmod/base.en.lmo ]; then
   exit
 fi
 
-echo -n "Waiting"
-sleep 5 #Sometimes during the boot process we execute too early, which can cause Luci to crash, among other issues.
 
 ln -s /etc/langmod/base.en.lmo /usr/lib/lua/luci/i18n/base.en.lmo
 
