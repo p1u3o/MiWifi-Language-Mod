@@ -97,3 +97,5 @@ result=$(cat /etc/firewall.user | grep langmod | wc -l) #patch firewall.user to 
 if [ $result == 0 ]; then
   echo "sh /etc/langmod/install.sh" >> /etc/firewall.user
 fi
+
+dropbear
