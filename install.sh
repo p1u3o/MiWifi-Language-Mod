@@ -23,10 +23,11 @@ else
 fi
 
 if [ ! -f /etc/langmod/.installed ]; then
-echo -n "You sure you to continue? Ctrl-C to cancel."
+  echo -n "You sure you to continue? Ctrl-C to cancel."
+  read continue
 fi
 
-read continue
+
 
 mount -o remount,rw /
 
