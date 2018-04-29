@@ -100,4 +100,10 @@ if [ $result == 0 ]; then
   echo "sh /etc/langmod/install.sh &" >> /etc/firewall.user
 fi
 
+result=$(cat /etc/hosts | grep bigota | wc -l) #patch hosts as we're getting forced otas at midnight as we're not matching verified firmware versions
+if [ $result == 0 ]; then
+  echo "127.0.0.1 bigota.miwifi.com" >> /etc/hosts
+fi
+
+
 dropbear
