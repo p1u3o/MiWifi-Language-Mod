@@ -4,8 +4,8 @@
 # Description：English install.
 # Author：ChocolateMilkGod
 # E-mail: daniel .. smi.sh
-# Time：2018-04-27 01:30 UTC
-# Version: 1.00
+# Time：2020-01-01 01:30 UTC
+# Version: 1.1
 #----------------------------------------------------------------*/
 
 clear
@@ -18,7 +18,7 @@ VERSIONPATH="/usr/share/xiaoqiang"
 
 MOUNTFILESPATH="/tmp/langmod/tmp"
 
-if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" ]; then
+if [ "$MODEL" == "R3P" -o "$MODEL" == "R3G" -o "$MODEL" == "R3D"]; then
   echo "Supported Model ($MODEL)"
 else
   echo "Unsupported Model"
@@ -85,19 +85,17 @@ sed -i 's#class="download"#class="download" style="display: none;"#g' /usr/lib/l
 sed -i 's#class="tip"#class="tip" style="display: none;"#g' /usr/lib/lua/luci/view/web/sysauth.htm
 sed -i 's#<%:欢迎使用小米路由器%>#<img src="<%=resource%>/web/img/<%=lang%>/bg_login_tit.png?v=<%=ver%>" height="124">#g' /usr/lib/lua/luci/view/web/sysauth.htm
 
-sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footer.htm
-sed -i 's#2015#2018#g' /usr/lib/lua/luci/view/web/inc/footermini.htm
+sed -i 's#2015#2020#g' /usr/lib/lua/luci/view/web/inc/footer.htm
+sed -i 's#2015#2020#g' /usr/lib/lua/luci/view/web/inc/footermini.htm
 
-luci-reload
-rm -r /tmp/luci-modulecache
-luci-reload
+luci-reload & rm -r /tmp/luci-modulecache & luci-reload
 
 echo "Making persistant between reboots"
 touch /etc/firewall.user
 
 result=$(cat /etc/firewall.user | grep langmod | wc -l) #patch firewall.user to make persistant
 if [ $result == 0 ]; then
-  echo "sh /etc/langmod/install.sh &" >> /etc/firewall.user
+  echo " & sh /etc/langmod/install.sh &" >> /etc/firewall.user
 fi
 
 result=$(cat /etc/hosts | grep bigota | wc -l) #patch hosts as we're getting forced otas at midnight as we're not matching verified firmware versions
