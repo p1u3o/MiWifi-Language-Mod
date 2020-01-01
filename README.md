@@ -17,7 +17,7 @@ To install, make sure you're on the Developer Version of the firmware with SSH e
 
 Install:
 
-    mkdir /etc/langmod; cd /etc/langmod; wget http://nocrypt.smi.sh/install.sh; sh install.sh
+    mkdir /etc/langmod; cd /etc/langmod; wget https://raw.githubusercontent.com/p1u3o/MiWifi-Language-Mod/master/install.sh -o install.sh; sh install.sh
 
 I'd prefer to host the installer directly on GitHub, but the wget on the firmware does not support ssl.
 
