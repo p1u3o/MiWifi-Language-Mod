@@ -19,8 +19,6 @@ Install:
 
     mkdir /etc/langmod; cd /etc/langmod; curl https://raw.githubusercontent.com/p1u3o/MiWifi-Language-Mod/master/install.sh -o install.sh; sh install.sh
 
-I'd prefer to host the installer directly on GitHub, but the wget on the firmware does not support ssl.
-
 
 **Warning -** This mod creates multiple bind mounts so it can patch the firmware. For some reason this can cause Dropbear not to start, however to be on the safe side this mod will start it manually anyway at each boot.
 
