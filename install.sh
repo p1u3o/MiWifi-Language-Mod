@@ -54,7 +54,7 @@ if [ ! -f /etc/langmod/base.en.lmo ]; then
   mkdir /etc/langmod/
   touch /etc/langmod/.installed
   echo -n "Downloading English Pack"
-  wget http://nocrypt.smi.sh/languages/R3P/base.en.lmo -O /etc/langmod/base.en.lmo
+  curl https://raw.githubusercontent.com/p1u3o/MiWifi-Language-Mod/master/languages/R3G/base.en.lmo -o /etc/langmod/base.en.lmo
 fi
 
 if [ ! -f /etc/langmod/base.en.lmo ]; then
